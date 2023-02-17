@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using ResumeFormatter.Domain.Interfaces.Service;
 
 namespace ResumeFormatter.Application.Controllers;
 
@@ -13,12 +14,11 @@ public class ResumeController : ControllerBase
     }
 
     [HttpPost(Name = "Format")]
-    public IActionResult Format(IFormFile file, IFormFile template)
+    public IActionResult Format([FromServices] IResumeService resumeService, IFormFile file, IFormFile template)
     {
         try
         {
-            var retorno = File(new ResumeService().Format(template, file), file.ContentType, file.FileName);
-            return retorno;
+            return File(resumeService.Format(template, file), file.ContentType, file.FileName);
         }
         catch (Exception error)
         {

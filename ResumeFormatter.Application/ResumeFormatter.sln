@@ -9,9 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ResumeFormatter.Domain", ".
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ResumeFormatter.Infra.Data", "..\ResumeFormatter.Infra.Data\ResumeFormatter.Infra.Data.csproj", "{93E3DD44-04E0-4B3E-9BCC-4560CC5DD402}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ResumeFormatter.Infra.IOC", "..\ResumeFormatter.Infra.IOC\ResumeFormatter.Infra.IOC.csproj", "{EE6E2DF0-DB86-4708-B213-F47B9DE17C9F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ResumeFormatter.Infra.CrossCutting", "..\ResumeFormatter.Infra.CrossCutting\ResumeFormatter.Infra.CrossCutting.csproj", "{EE6E2DF0-DB86-4708-B213-F47B9DE17C9F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResumeFormatter.Service", "..\ResumeFormatter.Service\ResumeFormatter.Service.csproj", "{DCAD4C01-2E63-48E9-93C5-0432B432936E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ResumeFormatter.Service", "..\ResumeFormatter.Service\ResumeFormatter.Service.csproj", "{DCAD4C01-2E63-48E9-93C5-0432B432936E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
