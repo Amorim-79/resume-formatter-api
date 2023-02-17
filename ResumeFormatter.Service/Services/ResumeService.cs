@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using DocumentFormat.OpenXml.Packaging;
+using DocumentFormat.OpenXml.Wordprocessing;
+using Microsoft.AspNetCore.Http;
+using ResumeFormatter.Domain.Interfaces.Service;
 
 namespace ResumeFormatter.Service.Services
 {
-    public class ResumeService
+    public class ResumeService : IResumeService
     {
         private List<string> keyWords = new List<string>()
         {
