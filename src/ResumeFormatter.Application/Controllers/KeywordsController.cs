@@ -1,11 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ResumeFormatter.Domain.Entities;
 using ResumeFormatter.Domain.Interfaces.Service;
 
 namespace ResumeFormatter.Application.Controllers
 {
+    [Authorize("Bearer")]
     [ApiController]
-    [Route("[keywords]")]
+    [Route("api/[controller]")]
     public class KeywordsController : ControllerBase
     {
         private readonly ILogger<KeywordsController> _logger;
@@ -14,8 +16,8 @@ namespace ResumeFormatter.Application.Controllers
             _logger = logger;
         }
 
-        [HttpPost(Name = "create")]
-        public IActionResult Create([FromServices] IBaseService<Keywords> service, Keywords Keywords)
+        [HttpPost("Create")]
+        public IActionResult Create([FromServices] IBaseService<Keyword> service, Keyword Keyword)
         {
             try
             {
@@ -27,8 +29,8 @@ namespace ResumeFormatter.Application.Controllers
             }
         }
 
-        [HttpPost(Name = "list")]
-        public IActionResult List([FromServices] IBaseService<Keywords> service)
+        [HttpPost("List")]
+        public IActionResult List([FromServices] IBaseService<Keyword> service)
         {
             try
             {
@@ -40,8 +42,8 @@ namespace ResumeFormatter.Application.Controllers
             }
         }
 
-        [HttpPost(Name = "update")]
-        public IActionResult Update([FromServices] IBaseService<Keywords> service, Keywords Keywords)
+        [HttpPost("Update")]
+        public IActionResult Update([FromServices] IBaseService<Keyword> service, Keyword Keyword)
         {
             try
             {
@@ -53,8 +55,8 @@ namespace ResumeFormatter.Application.Controllers
             }
         }
 
-        [HttpPost(Name = "delete")]
-        public IActionResult Delete([FromServices] IBaseService<Keywords> service, int id)
+        [HttpPost("Delete")]
+        public IActionResult Delete([FromServices] IBaseService<Keyword> service, int id)
         {
             try
             {

@@ -1,26 +1,21 @@
 ﻿using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Wordprocessing;
 using Microsoft.AspNetCore.Http;
+using ResumeFormatter.Domain.Entities;
 using ResumeFormatter.Domain.Interfaces.Service;
 
 namespace ResumeFormatter.Service.Services
 {
     public class ResumeService : IResumeService
     {
-        private List<string> keyWords = new List<string>()
+        private List<Keyword> keyWords = new List<Keyword>()
         {
-            "Objetivo",
-            "Habilidades e competência",
-            "Escolaridade",
-            "Experiência profissional",
-            "Conhecimentos",
-            "Idiomas",
-            "Objetivo:",
-            "Habilidades e competência:",
-            "Escolaridade:",
-            "Experiência profissional:",
-            "Conhecimentos:",
-            "Idiomas:"
+            new Keyword() { Id = 1, UserId = 1, Word = "Objetivo", CreatedAt = DateTime.Now },
+            new Keyword() { Id = 2, UserId = 1, Word = "Habilidades e competência", CreatedAt = DateTime.Now },
+            new Keyword() { Id = 3, UserId = 1, Word = "Escolaridade", CreatedAt = DateTime.Now },
+            new Keyword() { Id = 4, UserId = 1, Word = "Experiência profissional", CreatedAt = DateTime.Now },
+            new Keyword() { Id = 5, UserId = 1, Word = "Conhecimentos", CreatedAt = DateTime.Now },
+            new Keyword() { Id = 5, UserId = 1, Word = "Idiomas", CreatedAt = DateTime.Now }
         };
 
         public byte[] Format(IFormFile template, IFormFile file)
@@ -49,7 +44,7 @@ namespace ResumeFormatter.Service.Services
                 {
                     foreach (RunProperties props in run.value?.Descendants<RunProperties>())
                     {
-                        if (props.Descendants<Bold>().Count() > 0 && props.Descendants<Bold>()?.First() != null && this.keyWords.Contains(run.value.InnerText))
+                        if (props.Descendants<Bold>().Count() > 0 && props.Descendants<Bold>()?.First() != null && this.keyWords.Any(keyWord => keyWord.Word == run.value.InnerText.Replace(":", "")))
                         {
                             var aa = mainRun.ElementAt(run.index + 1).InnerText;
                         }
