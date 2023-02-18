@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ResumeFormatter.Infra.Cross
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ResumeFormatter.Service", "..\ResumeFormatter.Service\ResumeFormatter.Service.csproj", "{DCAD4C01-2E63-48E9-93C5-0432B432936E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ResumeFormatter.Test", "..\ResumeFormatter.Test\ResumeFormatter.Test.csproj", "{107B935E-555D-4C8D-B33C-BFC6D03DC9E2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{DCAD4C01-2E63-48E9-93C5-0432B432936E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DCAD4C01-2E63-48E9-93C5-0432B432936E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DCAD4C01-2E63-48E9-93C5-0432B432936E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{107B935E-555D-4C8D-B33C-BFC6D03DC9E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{107B935E-555D-4C8D-B33C-BFC6D03DC9E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{107B935E-555D-4C8D-B33C-BFC6D03DC9E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{107B935E-555D-4C8D-B33C-BFC6D03DC9E2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

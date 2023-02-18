@@ -5,16 +5,16 @@ using ResumeFormatter.Domain.Interfaces.Service;
 namespace ResumeFormatter.Application.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("[user]")]
     public class UserController : ControllerBase
     {
         private readonly ILogger<UserController> _logger;
         public UserController(ILogger<UserController> logger)
         {
-            _logger = logger;
+            this._logger = logger;
         }
 
-        [HttpPost(Name = "Register")]
+        [HttpPost(Name = "register")]
         public IActionResult Register([FromServices] IBaseService<User> service, User user)
         {
             try
@@ -27,20 +27,7 @@ namespace ResumeFormatter.Application.Controllers
             }
         }
 
-        [HttpPost(Name = "Login")]
-        public IActionResult Login([FromServices] IBaseService<User> service, User user)
-        {
-            try
-            {
-                return Ok();
-            }
-            catch (Exception exception)
-            {
-                return BadRequest(exception);
-            }
-        }
-
-        [HttpPost(Name = "Update")]
+        [HttpPost(Name = "update")]
         public IActionResult Update([FromServices] IBaseService<User> service, User user)
         {
             try
@@ -53,7 +40,7 @@ namespace ResumeFormatter.Application.Controllers
             }
         }
 
-        [HttpPost(Name = "Delete")]
+        [HttpPost(Name = "delete")]
         public IActionResult Delete([FromServices] IBaseService<User> service, int id)
         {
             try

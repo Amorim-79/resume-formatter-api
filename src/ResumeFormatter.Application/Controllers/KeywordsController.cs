@@ -5,17 +5,17 @@ using ResumeFormatter.Domain.Interfaces.Service;
 namespace ResumeFormatter.Application.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
-    public class UserKeywordsController : ControllerBase
+    [Route("[keywords]")]
+    public class KeywordsController : ControllerBase
     {
-        private readonly ILogger<UserKeywordsController> _logger;
-        public UserKeywordsController(ILogger<UserKeywordsController> logger)
+        private readonly ILogger<KeywordsController> _logger;
+        public KeywordsController(ILogger<KeywordsController> logger)
         {
             _logger = logger;
         }
 
-        [HttpPost(Name = "Create")]
-        public IActionResult Create([FromServices] IBaseService<UserKeywords> service, UserKeywords userKeywords)
+        [HttpPost(Name = "create")]
+        public IActionResult Create([FromServices] IBaseService<Keywords> service, Keywords Keywords)
         {
             try
             {
@@ -27,8 +27,8 @@ namespace ResumeFormatter.Application.Controllers
             }
         }
 
-        [HttpPost(Name = "List")]
-        public IActionResult List([FromServices] IBaseService<UserKeywords> service)
+        [HttpPost(Name = "list")]
+        public IActionResult List([FromServices] IBaseService<Keywords> service)
         {
             try
             {
@@ -40,8 +40,8 @@ namespace ResumeFormatter.Application.Controllers
             }
         }
 
-        [HttpPost(Name = "Update")]
-        public IActionResult Update([FromServices] IBaseService<UserKeywords> service, UserKeywords userKeywords)
+        [HttpPost(Name = "update")]
+        public IActionResult Update([FromServices] IBaseService<Keywords> service, Keywords Keywords)
         {
             try
             {
@@ -53,8 +53,8 @@ namespace ResumeFormatter.Application.Controllers
             }
         }
 
-        [HttpPost(Name = "Delete")]
-        public IActionResult Delete([FromServices] IBaseService<UserKeywords> service, int id)
+        [HttpPost(Name = "delete")]
+        public IActionResult Delete([FromServices] IBaseService<Keywords> service, int id)
         {
             try
             {
