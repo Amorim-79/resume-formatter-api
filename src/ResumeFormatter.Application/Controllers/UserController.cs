@@ -1,11 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ResumeFormatter.Domain.Entities;
 using ResumeFormatter.Domain.Interfaces.Service;
 
 namespace ResumeFormatter.Application.Controllers
 {
+    [Authorize("Bearer")]
     [ApiController]
-    [Route("[user]")]
+    [Route("api/[controller]")]
     public class UserController : ControllerBase
     {
         private readonly ILogger<UserController> _logger;
@@ -14,7 +16,7 @@ namespace ResumeFormatter.Application.Controllers
             this._logger = logger;
         }
 
-        [HttpPost(Name = "register")]
+        [HttpPost("Register")]
         public IActionResult Register([FromServices] IBaseService<User> service, User user)
         {
             try
@@ -27,7 +29,7 @@ namespace ResumeFormatter.Application.Controllers
             }
         }
 
-        [HttpPost(Name = "update")]
+        [HttpPost("Update")]
         public IActionResult Update([FromServices] IBaseService<User> service, User user)
         {
             try
@@ -40,7 +42,7 @@ namespace ResumeFormatter.Application.Controllers
             }
         }
 
-        [HttpPost(Name = "delete")]
+        [HttpPost("Delete")]
         public IActionResult Delete([FromServices] IBaseService<User> service, int id)
         {
             try

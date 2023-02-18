@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ResumeFormatter.Domain.Entities
+﻿namespace ResumeFormatter.Domain.Entities
 {
-    public class Keywords : BaseEntity
+    public class Keyword : BaseEntity
     {
-        public required string UserId { get; set; }
-        public required List<string> Keyword { get; set; }
+        public required int UserId { get; set; }
+        public required string Word { get; set; }
+        public required DateTime CreatedAt { get; set; }
     }
 }

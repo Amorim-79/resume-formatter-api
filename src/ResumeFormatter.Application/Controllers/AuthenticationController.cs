@@ -1,11 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using ResumeFormatter.Domain.Entities;
 using ResumeFormatter.Domain.Interfaces.Service;
 
 namespace ResumeFormatter.Application.Controllers
 {
+    [AllowAnonymous]
     [ApiController]
-    [Route("[authentication]")]
+    [Route("api/[controller]")]
     public class AuthenticationController : ControllerBase
     {
         private readonly ILogger<AuthenticationController> _logger;
@@ -15,7 +17,7 @@ namespace ResumeFormatter.Application.Controllers
             this._logger = logger;
         }
 
-        [HttpPost(Name = "login")]
+        [HttpPost("Login")]
         public IActionResult Login([FromServices] IBaseService<User> service, User user)
         {
             try

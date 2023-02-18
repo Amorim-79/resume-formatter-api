@@ -1,10 +1,12 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ResumeFormatter.Domain.Interfaces.Service;
 
 namespace ResumeFormatter.Application.Controllers;
 
+[Authorize("Bearer")]
 [ApiController]
-[Route("[resume]")]
+[Route("api/[controller]")]
 public class ResumeController : ControllerBase
 {
     private readonly ILogger<ResumeController> _logger;
@@ -13,7 +15,7 @@ public class ResumeController : ControllerBase
         this._logger = logger;
     }
 
-    [HttpPost(Name = "format")]
+    [HttpPost("Format")]
     public IActionResult Format([FromServices] IResumeService resumeService, IFormFile file, IFormFile template)
     {
         try
