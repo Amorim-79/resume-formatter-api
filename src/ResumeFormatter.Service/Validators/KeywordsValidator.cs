@@ -8,15 +8,15 @@ using System.Threading.Tasks;
 
 namespace ResumeFormatter.Service.Validators
 {
-    public class UserKeywordsValidator : AbstractValidator<UserKeywords>
+    public class KeywordsValidator : AbstractValidator<Keywords>
     {
-        public UserKeywordsValidator()
+        public KeywordsValidator()
         {
             RuleFor(c => c.UserId)
                 .NotEmpty().WithMessage("Please enter the UserId.")
                 .NotNull().WithMessage("Please enter the UserId.");
 
-            RuleFor(c => c.Keywords)
+            RuleFor(c => c.Keyword)
                 .NotEmpty().WithMessage("Please enter the Keywords.")
                 .NotNull().WithMessage("Please enter the Keywords.");
         }

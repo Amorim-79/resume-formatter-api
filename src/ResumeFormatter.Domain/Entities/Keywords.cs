@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace ResumeFormatter.Domain.Entities
 {
-    public class UserKeywords : BaseEntity
+    public class Keywords : BaseEntity
     {
         public required string UserId { get; set; }
-        public required List<string> Keywords { get; set; }
+        public required List<string> Keyword { get; set; }
     }
 }

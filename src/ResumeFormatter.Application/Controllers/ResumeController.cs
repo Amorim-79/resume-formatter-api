@@ -4,16 +4,16 @@ using ResumeFormatter.Domain.Interfaces.Service;
 namespace ResumeFormatter.Application.Controllers;
 
 [ApiController]
-[Route("[controller]")]
+[Route("[resume]")]
 public class ResumeController : ControllerBase
 {
     private readonly ILogger<ResumeController> _logger;
     public ResumeController(ILogger<ResumeController> logger)
     {
-        _logger = logger;
+        this._logger = logger;
     }
 
-    [HttpPost(Name = "Format")]
+    [HttpPost(Name = "format")]
     public IActionResult Format([FromServices] IResumeService resumeService, IFormFile file, IFormFile template)
     {
         try
