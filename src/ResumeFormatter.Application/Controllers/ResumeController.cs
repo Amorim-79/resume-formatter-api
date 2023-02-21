@@ -4,7 +4,7 @@ using ResumeFormatter.Domain.Interfaces.Service;
 
 namespace ResumeFormatter.Application.Controllers;
 
-[Authorize("Bearer")]
+[Authorize]
 [ApiController]
 [Route("api/[controller]")]
 public class ResumeController : ControllerBase

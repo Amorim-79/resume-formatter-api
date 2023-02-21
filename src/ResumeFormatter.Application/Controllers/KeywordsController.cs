@@ -5,7 +5,7 @@ using ResumeFormatter.Domain.Interfaces.Service;
 
 namespace ResumeFormatter.Application.Controllers
 {
-    [Authorize("Bearer")]
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class KeywordsController : ControllerBase
@@ -29,7 +29,7 @@ namespace ResumeFormatter.Application.Controllers
             }
         }
 
-        [HttpPost("List")]
+        [HttpGet("List")]
         public IActionResult List([FromServices] IBaseService<Keyword> service)
         {
             try
@@ -42,7 +42,7 @@ namespace ResumeFormatter.Application.Controllers
             }
         }
 
-        [HttpPost("Update")]
+        [HttpPut("Update")]
         public IActionResult Update([FromServices] IBaseService<Keyword> service, Keyword Keyword)
         {
             try
@@ -55,7 +55,7 @@ namespace ResumeFormatter.Application.Controllers
             }
         }
 
-        [HttpPost("Delete")]
+        [HttpDelete("Delete")]
         public IActionResult Delete([FromServices] IBaseService<Keyword> service, int id)
         {
             try

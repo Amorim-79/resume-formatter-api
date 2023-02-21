@@ -38,7 +38,7 @@ namespace ResumeFormatter.Service.Services
                 template.ChangeDocumentType(DocumentFormat.OpenXml.WordprocessingDocumentType.Document);
                 MainDocumentPart mainPart = template.MainDocumentPart;
 
-                var mainRun = mainPart.Document.Body?.Descendants<Run>();
+                var mainRun = mainPart.Document.Body?.Descendants<Paragraph>();
 
                 foreach (var run in mainRun.Select((value, index) => new { value, index }))
                 {
@@ -46,7 +46,12 @@ namespace ResumeFormatter.Service.Services
                     {
                         if (props.Descendants<Bold>().Count() > 0 && props.Descendants<Bold>()?.First() != null && this.keyWords.Any(keyWord => keyWord.Word == run.value.InnerText.Replace(":", "")))
                         {
-                            var aa = mainRun.ElementAt(run.index + 1).InnerText;
+                            var nextLineText = mainRun.ElementAt(run.index + 1).InnerText;
+                            if (!string.IsNullOrEmpty(nextLineText) && nextLineText != ":")
+                            {
+                                var a = this.GetCompletedTextParagraph(mainRun, (run.index + 1));
+                                break;
+                            }
                         }
                     }
                 }
@@ -76,9 +81,32 @@ namespace ResumeFormatter.Service.Services
             return documentStream.ToArray();
         }
 
-        private byte[] EditTextFields(Stream fileStream)
+        private string GetCompletedTextParagraph(IEnumerable<Paragraph> documentParagraphs, int initialIndex)
         {
-            return null;
+            string completedText = String.Empty;
+
+            var nextLineText = documentParagraphs.ElementAt(initialIndex).InnerText;
+            if (!this.IsKeyWord(nextLineText))
+            {
+                bool hasMoreLines = documentParagraphs.Count() - 1 != initialIndex;
+
+                completedText += @$"{nextLineText}
+{(hasMoreLines ? this.GetCompletedTextParagraph(documentParagraphs, (initialIndex + 1)) : "")}";
+
+            }
+
+            return completedText;
+        }
+
+        private bool IsKeyWord(string stringToCompare)
+        {
+            stringToCompare = stringToCompare
+                .Replace(":", "")
+                .Replace(";", "")
+                .Replace("-", "")
+                .Trim();
+
+            return this.keyWords.Any(keyWord => keyWord.Word.Trim() == stringToCompare);
         }
     }
 }

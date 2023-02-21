@@ -5,7 +5,7 @@ using ResumeFormatter.Domain.Interfaces.Service;
 
 namespace ResumeFormatter.Application.Controllers
 {
-    [Authorize("Bearer")]
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class UserController : ControllerBase
@@ -29,7 +29,7 @@ namespace ResumeFormatter.Application.Controllers
             }
         }
 
-        [HttpPost("Update")]
+        [HttpPut("Update")]
         public IActionResult Update([FromServices] IBaseService<User> service, User user)
         {
             try
@@ -42,7 +42,7 @@ namespace ResumeFormatter.Application.Controllers
             }
         }
 
-        [HttpPost("Delete")]
+        [HttpDelete("Delete")]
         public IActionResult Delete([FromServices] IBaseService<User> service, int id)
         {
             try
