@@ -3,6 +3,8 @@ using DocumentFormat.OpenXml.Wordprocessing;
 using Microsoft.AspNetCore.Http;
 using ResumeFormatter.Domain.Entities;
 using ResumeFormatter.Domain.Interfaces.Service;
+using System.Linq;
+using System.Reflection.Metadata;
 
 namespace ResumeFormatter.Service.Services
 {
@@ -25,11 +27,13 @@ namespace ResumeFormatter.Service.Services
 
             var fileData = GetFileData(fileStream);
 
-            return this.ProcessDocumentFile(templateStream, fileData);
+            return this.WriteDocumentFile(templateStream, fileData);
         }
 
         private Dictionary<string, dynamic> GetFileData(Stream stream)
         {
+            var resumeData = new Dictionary<string, dynamic>(StringComparer.OrdinalIgnoreCase);
+
             MemoryStream documentStream = new MemoryStream();
             stream.CopyTo(documentStream);
 
@@ -40,6 +44,8 @@ namespace ResumeFormatter.Service.Services
 
                 var mainRun = mainPart.Document.Body?.Descendants<Paragraph>();
 
+                resumeData.Add("nome completo", mainRun.ElementAt(0).InnerText);
+
                 foreach (var run in mainRun.Select((value, index) => new { value, index }))
                 {
                     foreach (RunProperties props in run.value?.Descendants<RunProperties>())
@@ -49,7 +55,8 @@ namespace ResumeFormatter.Service.Services
                             var nextLineText = mainRun.ElementAt(run.index + 1).InnerText;
                             if (!string.IsNullOrEmpty(nextLineText) && nextLineText != ":")
                             {
-                                var a = this.GetCompletedTextParagraph(mainRun, (run.index + 1));
+                                resumeData.Add(this.keyWords.Where(keyWord => keyWord.Word == run.value.InnerText.Replace(":", "")).First().Word,
+                                    this.GetCompletedTextParagraph(mainRun, (run.index + 1)));
                                 break;
                             }
                         }
@@ -62,10 +69,10 @@ namespace ResumeFormatter.Service.Services
 
             documentStream.ToArray();
 
-            return new Dictionary<string, dynamic>();
+            return resumeData;
         }
 
-        private byte[] ProcessDocumentFile(Stream stream, Dictionary<string, dynamic> fileData)
+        private byte[] WriteDocumentFile(Stream stream, Dictionary<string, dynamic> resumeData)
         {
             MemoryStream documentStream = new MemoryStream();
             stream.CopyTo(documentStream);
@@ -75,6 +82,44 @@ namespace ResumeFormatter.Service.Services
                 template.ChangeDocumentType(DocumentFormat.OpenXml.WordprocessingDocumentType.Document);
                 MainDocumentPart mainPart = template.MainDocumentPart;
 
+                var paragraphs = mainPart.Document.Body?.Descendants<Paragraph>();
+
+                foreach (var paragraph in paragraphs)
+                {
+                    if (resumeData.TryGetValue(paragraph.InnerText.Replace("{", "").Replace("}", "").ToLower().Trim(), out dynamic fieldValue))
+                    {
+                        bool isNameField = resumeData.First().Key == paragraph.InnerText.Replace("{", "").Replace("}", "").ToLower().Trim();
+
+                        ParagraphProperties paragraphProperties = new ParagraphProperties();
+                        Justification justification = new Justification() { Val = JustificationValues.Start };
+
+                        if (isNameField)
+                        {
+                            justification = new Justification() { Val = JustificationValues.Center };
+                        }
+
+                        paragraph.RemoveAllChildren<Run>();
+                        paragraph.Append(paragraphProperties);
+                        paragraphProperties.Append(justification);
+
+                        foreach (string lineString in fieldValue.Split(new char[] { '\r' }))
+                        {
+                            Run run = new Run();
+
+                            if (isNameField)
+                            {
+                                Bold bold = new Bold();
+                                RunProperties runProperties = run.AppendChild(new RunProperties());
+                                runProperties.AppendChild(bold);
+                            }
+
+                            run.AppendChild(new Text(lineString));
+
+                            paragraph.AppendChild<Run>(run);
+                            paragraph.AppendChild<Run>(new Run(new Break()));
+                        }
+                    }
+                }
                 mainPart.Document.Save();
             }
 
@@ -104,9 +149,10 @@ namespace ResumeFormatter.Service.Services
                 .Replace(":", "")
                 .Replace(";", "")
                 .Replace("-", "")
+                .ToLower()
                 .Trim();
 
-            return this.keyWords.Any(keyWord => keyWord.Word.Trim() == stringToCompare);
+            return this.keyWords.Any(keyWord => keyWord.Word.Trim().ToLower() == stringToCompare);
         }
     }
 }
