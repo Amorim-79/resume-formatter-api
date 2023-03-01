@@ -20,7 +20,7 @@ public class ResumeController : ControllerBase
     {
         try
         {
-            return File(resumeService.Format(template, file), file.ContentType, file.FileName);
+            return File(resumeService.Format(template, file), file.ContentType, $"{file.FileName}-formated");
         }
         catch (Exception error)
         {

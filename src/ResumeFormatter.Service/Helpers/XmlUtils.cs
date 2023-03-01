@@ -1,29 +1,26 @@
-﻿using DocumentFormat.OpenXml.Drawing;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using DocumentFormat.OpenXml;
+using DocumentFormat.OpenXml.Wordprocessing;
+using ResumeFormatter.Service.Enums.Xml;
 
 namespace ResumeFormatter.Service.Helpers
 {
     public class XmlUtils
     {
-        public TextStyles DetectStyles(Paragraph pTag)
+        public ETextStyles DetectStyles(Paragraph paragraph)
         {
-
             bool isItalic = false;
             bool isBold = false;
             bool isUnderline = false;
-            foreach (Run r in pTag.Descendants<Run>())
+
+            foreach (Run r in paragraph.Descendants<Run>())
             {
                 if (r.RunProperties != null)
                 {
                     RunProperties runProperties = r.RunProperties;
 
-                    isBold = runProperties.Bold != null ? true : false;
-                    isItalic = runProperties.Italic != null ? true : false;
-                    isUnderline = runProperties.Underline != null ? true : false;
+                    isBold = runProperties.Bold != null;
+                    isItalic = runProperties.Italic != null;
+                    isUnderline = runProperties.Underline != null;
                 }
                 else
                 {
@@ -34,49 +31,75 @@ namespace ResumeFormatter.Service.Helpers
             }
             if (isItalic && isBold && isUnderline)
             {
-                return TextStyles.AllStyles;
+                return ETextStyles.AllStyles;
             }
             else if (isBold && isItalic)
             {
-                return TextStyles.BoldItalic;
+                return ETextStyles.BoldItalic;
             }
             else if (isBold && isUnderline)
             {
-                return TextStyles.BoldUnderLine;
+                return ETextStyles.BoldUnderLine;
             }
             else if (isItalic && isUnderline)
             {
-                return TextStyles.ItalicUnderLine;
+                return ETextStyles.ItalicUnderLine;
             }
             else if (isItalic)
             {
-                return TextStyles.Italic;
+                return ETextStyles.Italic;
             }
             else if (isBold)
             {
-                return TextStyles.Bold;
+                return ETextStyles.Bold;
             }
             else if (isUnderline)
             {
-                return TextStyles.UnderLine;
+                return ETextStyles.UnderLine;
             }
             else
             {
-                return TextStyles.NoStyle;
+                return ETextStyles.NoStyle;
+            }
+        }
+
+        public string? DetectFontFamily(Paragraph paragraph)
+        {
+            foreach (Run r in paragraph.Descendants<Run>())
+            {
+                if (r.RunProperties != null)
+                {
+                    RunProperties runProperties = r.RunProperties;
+                    return runProperties?.RunFonts?.Ascii;
+                }
+            }
+            return null;
+        }
+
+        public StringValue? DetectFontSize(Paragraph paragraph)
+        {
+            foreach (Run r in paragraph.Descendants<Run>())
+            {
+                if (r.RunProperties != null)
+                {
+                    RunProperties runProperties = r.RunProperties;
+                    return runProperties?.FontSize?.Val;
+                }
+            }
+            return null;
+        }
+
+        public JustificationValues DetectParagraphJustification(Paragraph paragraph)
+        {
+            if (paragraph == null
+                || paragraph?.ParagraphProperties == null
+                || paragraph?.ParagraphProperties?.Justification == null 
+                || paragraph?.ParagraphProperties?.Justification.Val == null)
+            {
+                return JustificationValues.Start;
             }
 
+            return paragraph.ParagraphProperties.Justification.Val;
         }
-    }
-
-    public enum TextStyles
-    {
-        AllStyles = 1,
-        BoldItalic = 2,
-        BoldUnderLine = 3,
-        ItalicUnderLine = 4,
-        Italic = 5,
-        Bold = 6,
-        UnderLine = 7,
-        NoStyle = 0
     }
 }
